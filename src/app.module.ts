@@ -2,6 +2,7 @@ import { ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
+import { MongooseModule } from '@nestjs/mongoose';
 
 import { join } from 'path';
 
@@ -15,6 +16,7 @@ import { AppService } from './app.service';
       autoSchemaFile: join(__dirname, 'graphql', 'schema.gql'),
       driver: ApolloDriver,
     }),
+    MongooseModule.forRoot(process.env['MONGODB_URI']),
   ],
   controllers: [AppController],
   providers: [AppService],
