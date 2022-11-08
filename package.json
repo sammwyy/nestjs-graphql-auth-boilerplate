@@ -21,11 +21,13 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs/apollo": "^10.1.4",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/graphql": "^10.1.5",
     "@nestjs/platform-express": "^9.0.0",
+    "apollo-server-express": "^3.11.1",
     "graphql": "^16.6.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
