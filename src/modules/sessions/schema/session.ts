@@ -17,10 +17,10 @@ export class Session {
   device: string;
 
   @Field()
-  @Prop({ type: BigInt })
+  @Prop({ required: true })
   date: number;
 
-  @Prop({ type: BigInt })
+  @Prop({ required: true })
   token: string;
 
   @Prop({ required: true })

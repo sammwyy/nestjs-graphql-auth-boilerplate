@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UsersModule } from '../users/users.module';
 import { Session, SessionSchema } from './schema/session';
 import { SessionsService } from './sessions.service';
 
@@ -12,7 +13,7 @@ import { SessionsService } from './sessions.service';
         schema: SessionSchema,
       },
     ]),
-    ,
+    UsersModule,
     JwtModule,
   ],
   providers: [SessionsService],

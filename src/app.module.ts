@@ -14,12 +14,31 @@ import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
+    /**
+     * Load environment variables from the .env file in the root of the project.
+     */
     ConfigModule.forRoot(),
+
+    /**
+     * Using the GraphQL module it will load all the schemas automatically
+     * and generate the .gql file
+     * Also the playground mode and debug will only be available if the application
+     *  is running under a development environment.
+     */
     GraphQLModule.forRoot({
       autoSchemaFile: join(__dirname, 'graphql', 'schema.gql'),
       driver: ApolloDriver,
     }),
+
+    /**
+     * Using the database module it will connect to the
+     * mongodb server specified in the environment variable "MONGODB_URI"
+     */
     MongooseModule.forRoot(process.env['MONGODB_URI']),
+
+    /**
+     * Load all the remaining modules that are responsible for managing different schemes and services.
+     */
     AuthModule,
     SessionsModule,
     UsersModule,
