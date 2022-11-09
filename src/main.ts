@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config();
+
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -12,4 +15,5 @@ async function bootstrap() {
   await app.listen(PORT, HOST);
   Logger.log(`Server listening on http://${HOST}:${PORT}`, 'NestApplication');
 }
+
 bootstrap();

@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Date, Document } from 'mongoose';
 
 @ObjectType()
 @Schema()
@@ -16,15 +16,19 @@ export class Session {
   @Prop({ required: true })
   device: string;
 
-  @Field()
-  @Prop({ required: true })
-  date: number;
-
   @Prop({ required: true })
   token: string;
 
   @Prop({ required: true })
   user: string;
+
+  @Field(() => Number)
+  @Prop({
+    type: Date,
+    default: Date.now,
+    expires: process.env['JWT_EXPIRATION'],
+  })
+  date: Date;
 }
 
 export type SessionDocument = Session & Document;

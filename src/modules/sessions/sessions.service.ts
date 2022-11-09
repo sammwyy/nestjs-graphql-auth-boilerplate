@@ -64,7 +64,6 @@ export class SessionsService {
     const session = new this.sessionModel({
       address,
       device: device || 'unknown',
-      date: Date.now(),
       user: userId,
     });
 

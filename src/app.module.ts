@@ -1,6 +1,5 @@
 import { ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 
@@ -14,11 +13,6 @@ import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
-    /**
-     * Load environment variables from the .env file in the root of the project.
-     */
-    ConfigModule.forRoot(),
-
     /**
      * Using the GraphQL module it will load all the schemas automatically
      * and generate the .gql file
