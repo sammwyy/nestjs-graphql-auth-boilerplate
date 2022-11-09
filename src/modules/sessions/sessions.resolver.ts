@@ -1,11 +1,21 @@
+import { UseGuards } from '@nestjs/common';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Request } from 'express';
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
-import { UsersService } from '../users/users.service';
+
 import CreateSessionDTO from './dto/create-session.dto';
+
+import CurrentUser from 'src/decorators/current-user.decorator';
+import GqlRequest from 'src/decorators/gql-request.decorator';
+
+import { GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
+
 import { Session } from './schema/session';
 import { SessionsService } from './sessions.service';
 import { SessionWithToken } from './schema/session-with-token';
-import GqlRequest from 'src/decorators/gql-request.decorator';
+
+import { UsersService } from '../users/users.service';
+import { User } from '../users/models/user';
+import AuthToken from 'src/decorators/auth-token.decorator';
 
 @Resolver(() => Resolver)
 export class SessionsResolver {
@@ -13,6 +23,26 @@ export class SessionsResolver {
     private sessionsService: SessionsService,
     private usersService: UsersService,
   ) {}
+
+  @UseGuards(GqlAuthGuard)
+  @Query(() => [Session])
+  public getSessions(@CurrentUser() user: User): Promise<Session[]> {
+    return this.sessionsService.getByUser(user._id);
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => Boolean)
+  public async invalidateSession(@AuthToken() token: string): Promise<boolean> {
+    return this.sessionsService.deleteByToken(token);
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => Boolean)
+  public async invalidateAllSessions(
+    @CurrentUser() user: User,
+  ): Promise<boolean> {
+    return this.sessionsService.deleteByUser(user._id);
+  }
 
   @Mutation(() => SessionWithToken)
   public async createSession(

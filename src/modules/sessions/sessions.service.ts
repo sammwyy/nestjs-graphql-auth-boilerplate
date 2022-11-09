@@ -39,6 +39,23 @@ export class SessionsService {
     return this.sessionModel.find({ user }).exec();
   }
 
+  public deleteByID(id: string): Promise<any> {
+    if (!isValidObjectId(id)) {
+      return null;
+    }
+    return this.sessionModel.findByIdAndDelete(id).exec();
+  }
+
+  public async deleteByToken(token: string): Promise<boolean> {
+    const result = await this.sessionModel.findOneAndDelete({ token }).exec();
+    return result?._id != null;
+  }
+
+  public async deleteByUser(userId: string): Promise<boolean> {
+    const result = await this.sessionModel.deleteMany({ user: userId }).exec();
+    return result.deletedCount > 0;
+  }
+
   public async createSession(
     userId: string,
     address: string,
