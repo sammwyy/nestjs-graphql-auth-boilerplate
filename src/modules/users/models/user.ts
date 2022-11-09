@@ -10,18 +10,19 @@ export class User {
   _id: string;
 
   @Field()
-  @Prop({ lowercase: true, required: true })
-  email: string;
-
-  @Prop({ required: true })
-  password: string;
-
   @Prop({ required: true })
   displayName: string;
 
   @Field()
+  @Prop({ lowercase: true, required: true })
+  email: string;
+
+  @Field()
   @Prop({ default: false })
   emailVerified: boolean;
+
+  @Prop({ required: true })
+  password: string;
 
   comparePassword: (candidate: string) => Promise<boolean>;
 }

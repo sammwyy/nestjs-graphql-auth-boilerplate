@@ -5,10 +5,10 @@ import { IsEmail, MaxLength } from 'class-validator';
 export default class UpdateUserDTO {
   @IsEmail()
   @MaxLength(256)
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   email?: string;
 
   @MaxLength(64)
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   displayName?: string;
 }

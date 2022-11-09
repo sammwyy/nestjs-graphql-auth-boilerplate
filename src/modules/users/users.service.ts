@@ -75,11 +75,13 @@ export class UsersService {
       throw UsersService.USER_NOT_FOUND;
     }
 
-    if (!user.comparePassword(oldPassword)) {
+    const match = await user.comparePassword(oldPassword);
+    if (match !== true) {
       throw UsersService.WRONG_PASSWORD;
     }
 
-    await this.userModel.findByIdAndUpdate(userID, { password: newPassword });
+    user.password = newPassword;
+    await (user as UserDocument).save();
     return true;
   }
 }
