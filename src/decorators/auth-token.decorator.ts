@@ -7,7 +7,7 @@ const AuthToken = createParamDecorator(
       return context.switchToHttp().getRequest().user;
     } else {
       const ctx = GqlExecutionContext.create(context);
-      return ctx.getContext().req.headers['Authentication']?.split(' ')[1];
+      return ctx.getContext().req.headers['authorization']?.split(' ')[1];
     }
   },
 );
