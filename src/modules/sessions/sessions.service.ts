@@ -68,7 +68,7 @@ export class SessionsService {
       user: userId,
     });
 
-    const payload = { id: userId };
+    const payload = { id: session._id };
     const secret = process.env['JWT_SECRET'];
     const token = this.jwtService.sign(payload, { secret });
     session.token = token;

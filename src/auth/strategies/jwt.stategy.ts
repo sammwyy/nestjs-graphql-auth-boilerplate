@@ -19,7 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JWTPayload, done): Promise<void> {
-    const session = await this.sessionsService.getByToken(payload.id);
+    const session = await this.sessionsService.getByID(payload.id);
 
     if (session != null) {
       const user = await this.usersService.getByID(session.user);
