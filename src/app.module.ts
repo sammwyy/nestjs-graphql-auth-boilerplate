@@ -8,6 +8,7 @@ import { join } from 'path';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AppService } from './app.service';
       driver: ApolloDriver,
     }),
     MongooseModule.forRoot(process.env['MONGODB_URI']),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -16,15 +16,14 @@ export class User {
   @Prop({ required: true })
   password: string;
 
+  @Prop()
+  sessions: string[];
+
   @Field()
   @Prop({ default: false })
   emailVerified: boolean;
 
   comparePassword: (candidate: string) => Promise<boolean>;
-  changePassword: (
-    oldPassword: string,
-    newPassword: string,
-  ) => Promise<boolean>;
 }
 
 export type UserDocument = User & Document;
