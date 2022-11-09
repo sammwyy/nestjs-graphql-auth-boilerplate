@@ -21,9 +21,9 @@ export class UsersService {
     'USER_NOT_FOUND',
     "The user with this ID didn't exist.",
   );
-  public static WRONG_CREDENTIALS = new UnauthorizedException(
-    'WRONG_CREDENTIALS',
-    'Email or Password are invalid.',
+  public static WRONG_PASSWORD = new UnauthorizedException(
+    'WRONG_PASSWORD',
+    'Incorrect old password.',
   );
 
   constructor(
@@ -76,7 +76,7 @@ export class UsersService {
     }
 
     if (!user.comparePassword(oldPassword)) {
-      throw UsersService.WRONG_CREDENTIALS;
+      throw UsersService.WRONG_PASSWORD;
     }
 
     await this.userModel.findByIdAndUpdate(userID, { password: newPassword });

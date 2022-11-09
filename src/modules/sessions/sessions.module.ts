@@ -3,6 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from '../users/users.module';
 import { Session, SessionSchema } from './schema/session';
+import { SessionsResolver } from './sessions.resolver';
 import { SessionsService } from './sessions.service';
 
 @Module({
@@ -16,7 +17,7 @@ import { SessionsService } from './sessions.service';
     UsersModule,
     JwtModule,
   ],
-  providers: [SessionsService],
+  providers: [SessionsResolver, SessionsService],
   exports: [SessionsService],
 })
 export class SessionsModule {}
