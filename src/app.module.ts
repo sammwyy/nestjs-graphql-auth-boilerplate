@@ -8,6 +8,8 @@ import { join } from 'path';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
+import { SessionsModule } from './modules/sessions/sessions.module';
 import { UsersModule } from './modules/users/users.module';
 
 @Module({
@@ -18,6 +20,8 @@ import { UsersModule } from './modules/users/users.module';
       driver: ApolloDriver,
     }),
     MongooseModule.forRoot(process.env['MONGODB_URI']),
+    AuthModule,
+    SessionsModule,
     UsersModule,
   ],
   controllers: [AppController],
