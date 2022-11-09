@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty, MaxLength } from 'class-validator';
+import { IsNotEmpty, Length, MaxLength } from 'class-validator';
 
 @InputType()
 export default class UpdatePasswordDTO {
@@ -9,7 +9,7 @@ export default class UpdatePasswordDTO {
   oldPassword: string;
 
   @IsNotEmpty()
-  @MaxLength(256)
+  @Length(8, 256)
   @Field(() => String)
   newPassword: string;
 }

@@ -16,8 +16,8 @@ export class User {
   @Prop({ required: true })
   password: string;
 
-  @Prop()
-  sessions: string[];
+  @Prop({ required: true })
+  displayName: string;
 
   @Field()
   @Prop({ default: false })

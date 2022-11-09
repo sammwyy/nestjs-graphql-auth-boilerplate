@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { isValidObjectId, Model } from 'mongoose';
 import { UsersService } from '../users/users.service';
 import { Session, SessionDocument } from './schema/session';
+import { SessionWithToken } from './schema/session-with-token';
 
 @Injectable()
 export class SessionsService {
@@ -42,7 +43,7 @@ export class SessionsService {
     userId: string,
     address: string,
     device: string,
-  ): Promise<Session | undefined> {
+  ): Promise<SessionWithToken> {
     const session = new this.sessionModel({
       address,
       device: device || 'unknown',
@@ -51,11 +52,11 @@ export class SessionsService {
     });
 
     const payload = { id: userId };
-    const token = this.jwtService.sign(payload, {
-      secret: process.env['JWT_SECRET'],
-    });
+    const secret = process.env['JWT_SECRET'];
+    const token = this.jwtService.sign(payload, { secret });
+    session.token = token;
+    await session.save();
 
-    console.log('------> ' + session._id);
-    return { ...session, token };
+    return session as SessionWithToken;
   }
 }

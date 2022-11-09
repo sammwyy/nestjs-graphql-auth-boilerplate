@@ -1,10 +1,11 @@
-import { Request } from '@nestjs/common';
-import { Request as IRequest } from 'express';
+import { Request } from 'express';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { UsersService } from '../users/users.service';
 import CreateSessionDTO from './dto/create-session.dto';
 import { Session } from './schema/session';
 import { SessionsService } from './sessions.service';
+import { SessionWithToken } from './schema/session-with-token';
+import GqlRequest from 'src/decorators/gql-request.decorator';
 
 @Resolver(() => Resolver)
 export class SessionsResolver {
@@ -13,21 +14,20 @@ export class SessionsResolver {
     private usersService: UsersService,
   ) {}
 
-  @Mutation(() => Session)
+  @Mutation(() => SessionWithToken)
   public async createSession(
-    @Request() req: IRequest,
+    @GqlRequest() req: Request,
     @Args('payload') payload: CreateSessionDTO,
-  ): Promise<Session> {
+  ): Promise<SessionWithToken> {
     const user = await this.usersService.getByEmail(payload.email);
     if (!user) {
       throw UsersService.USER_NOT_FOUND;
     }
-
     const validPassword = await user.comparePassword(payload.password);
     if (validPassword === true) {
       return await this.sessionsService.createSession(
         user._id,
-        req.ip,
+        req.socket.remoteAddress,
         req.headers['user-agent'],
       );
     } else {
